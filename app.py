@@ -3,58 +3,37 @@ import streamlit as st
 # 1. Configuration de la page
 st.set_page_config(page_title="Rugby Score Pro", page_icon="🏉", layout="wide")
 
-# 2. Injection de CSS personnalisé pour un look "Stade de Nuit"
+# 2. Style CSS (Bloc simplifié)
 st.markdown("""
-    <style>
-    /* Fond de l'application */
-    .stApp {
-        background-color: #0E1117;
+<style>
+    .stApp { background-color: #0E1117; }
+    h2 { color: #94A3B8 !important; text-align: center; }
+    h1 { color: white !important; text-align: center; }
+    [data-testid="stMetricValue"] { font-size: 5rem !important; color: #FB923C !important; text-align: center; }
+    div.stButton > button { 
+        width: 100%; 
+        border-radius: 10px; 
+        background-color: #1F2937; 
+        color: white; 
+        border: 1px solid #FB923C;
     }
-    
-    /* Personnalisation des boutons */
-    div.stButton > button {
-        width: 100%;
-        border-radius: 10px;
-        height: 3.5em;
-        background-color: #1F2937;
-        color: #FB923C !important; /* Orange électrique */
-        border: 1px solid #FB923C !important;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    div.stButton > button:hover {
-        background-color: #FB923C !important;
-        color: #1F2937 !important;
-        box-shadow: 0 0 15px #FB923C;
-    }
+</style>
+""", unsafe_allow_html=True)
 
-    /* Style des métriques de score */
-    [data-testid="stMetricValue"] {
-        font-size: 5rem !important;
-        color: #FFFFFF !important;
-        font-family: 'Courier New', Courier, monospace;
-        text-align: center;
-    }
+# 3. Initialisation du Score
+if 'score_a' not in st.session_state: st.session_state.score_a = 0
+if 'score_b' not in st.session_state: st.session_state.score_b = 0
+if 'essais_a' not in st.session_state: st.session_state.essais_a = 0
+if 'essais_b' not in st.session_state: st.session_state.essais_b = 0
 
-    /* Style des titres de colonnes */
-    h2 {
-        color: #94A3B8 !important;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        text-align: center;
-    }
+# 4. Titre
+st.markdown("<h1>🏉 SCOREBOARD PRO</h1>", unsafe_allow_html=True)
 
-    /* Masquer les éléments Streamlit superflus */
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
-    
-    /* Style des boites de bonus */
-    .status-box {
-        padding: 15px;
-        border-radius: 8px;
-        border: 1px solid #334155;
-        background-color: #1E293B;
-        text-align: center;
-    }
-    </style>
+# 5. Interface de match
+col1, mid, col2 = st.columns([2, 0.5, 2])
+
+with col1:
+    st.markdown("<h2>DOMICILE</h2>", unsafe_allow_html=True)
+    st.metric("", st.session_state.score_a)
+    c1, c2, c3 = st.columns(3)
+    if c
