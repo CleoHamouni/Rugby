@@ -1,39 +1,45 @@
 import streamlit as st
 
-# 1. Configuration de la page
-st.set_page_config(page_title="Rugby Score Pro", page_icon="🏉", layout="wide")
+# 1. Configuration
+st.set_page_config(page_title="Rugby Score Pro", layout="wide")
 
-# 2. Style CSS (Bloc simplifié)
+# 2. CSS Simple
 st.markdown("""
 <style>
-    .stApp { background-color: #0E1117; }
-    h2 { color: #94A3B8 !important; text-align: center; }
-    h1 { color: white !important; text-align: center; }
-    [data-testid="stMetricValue"] { font-size: 5rem !important; color: #FB923C !important; text-align: center; }
-    div.stButton > button { 
-        width: 100%; 
-        border-radius: 10px; 
-        background-color: #1F2937; 
-        color: white; 
-        border: 1px solid #FB923C;
-    }
+    .stApp { background-color: #0E1117; color: white; }
+    [data-testid="stMetricValue"] { color: #FB923C !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Initialisation du Score
-if 'score_a' not in st.session_state: st.session_state.score_a = 0
-if 'score_b' not in st.session_state: st.session_state.score_b = 0
-if 'essais_a' not in st.session_state: st.session_state.essais_a = 0
-if 'essais_b' not in st.session_state: st.session_state.essais_b = 0
+# 3. Initialisation
+for key in ['score_a', 'score_b', 'essais_a', 'essais_b']:
+    if key not in st.session_state:
+        st.session_state[key] = 0
 
 # 4. Titre
-st.markdown("<h1>🏉 SCOREBOARD PRO</h1>", unsafe_allow_html=True)
+st.title("🏉 SCOREBOARD PRO")
 
-# 5. Interface de match
-col1, mid, col2 = st.columns([2, 0.5, 2])
+# 5. Interface
+col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("<h2>DOMICILE</h2>", unsafe_allow_html=True)
-    st.metric("", st.session_state.score_a)
-    c1, c2, c3 = st.columns(3)
-    if c
+    st.header("DOMICILE")
+    st.metric("Score", st.session_state.score_a)
+    if st.button("ESSAI +5", key="btn_a1"):
+        st.session_state.score_a += 5
+        st.session_state.essais_a += 1
+        st.rerun()
+    if st.button("TRANSFO +2", key="btn_a2"):
+        st.session_state.score_a += 2
+        st.rerun()
+    if st.button("PÉNALITÉ +3", key="btn_a3"):
+        st.session_state.score_a += 3
+        st.rerun()
+
+with col2:
+    st.header("EXTÉRIEUR")
+    st.metric("Score", st.session_state.score_b)
+    if st.button("ESSAI +5", key="btn_b1"):
+        st.session_state.score_b += 5
+        st.session_state.essais_b += 1
+        st.rerun()
