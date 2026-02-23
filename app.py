@@ -32,7 +32,7 @@ st.markdown("""
 with st.sidebar:
     st.header("📊 Ratio Fun / Risque")
     conso = st.slider("Verres consommés", 0, 15, 2)
-    tension = st.slider("Indice de tension", 1, 10, 1)
+    tension = st.slider("Taux d'énervement de Madame", 1, 10, 1)
     roi_score = (conso * 5) - (tension * 3)
     st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
 
