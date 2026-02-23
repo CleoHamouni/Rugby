@@ -1,45 +1,55 @@
 import streamlit as st
 import random
 
-# Configuration
+# Configuration optimisée mobile
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS DÉFINITIF ---
+# --- STYLE CSS (LE "MARTEAU-PIQUEUR" POUR LE BLANC) ---
 st.markdown("""
     <style>
     .stApp { background-color: #0e1117; color: white; }
     
-    /* Force le blanc sur TOUS les textes et labels, y compris les sliders */
-    label, .stMarkdown p, .stText, [data-testid="stHeader"], .stSelectbox label, .stSlider label { 
+    /* Ciblage ultra-précis des labels des sliders et autres widgets */
+    div[data-testid="stWidgetLabel"] p, 
+    .stSlider label, 
+    .stSelectbox label, 
+    .stNumberInput label,
+    label { 
         color: white !important; 
         font-weight: bold !important;
+        -webkit-text-fill-color: white !important; /* Pour certains navigateurs mobiles */
     }
 
-    /* Style des boutons mobile */
+    /* Boutons mobiles */
     .stButton>button { 
         width: 100%; background-color: #d62828 !important; color: white !important; 
         border-radius: 12px; height: 4em; font-weight: bold; font-size: 1.2rem; margin-top: 10px;
     }
     
-    /* Style de la boîte d'excuse */
+    /* Boîte d'excuse */
     .excuse-box { 
         background-color: #1c2128; padding: 20px; border-radius: 10px; 
         border-left: 6px solid #d62828; color: #f0f6fc !important; font-style: italic; font-size: 1.1em;
     }
 
-    /* Carte ROI dans la sidebar */
+    /* Dashboard ROI */
     .finops-card { 
         background-color: #000; padding: 15px; border-radius: 12px; 
         border: 2px solid #d62828; text-align: center; margin-bottom: 20px; 
     }
     .metric-value { font-size: 2.5rem; font-weight: bold; color: #d62828 !important; display: block; }
+    
+    /* Arrière-plan des curseurs pour visibilité */
+    .stSlider [data-baseweb="slider"] {
+        margin-bottom: 20px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
 # --- SIDEBAR : DASHBOARD ---
 with st.sidebar:
     st.header("📊 Dashboard")
-    # Les labels ici seront maintenant forcés en blanc
+    # Les labels ici devraient maintenant être blancs
     conso = st.slider("Unités consommées", 0, 15, 2)
     tension = st.slider("Indice de tension", 1, 10, 3)
     
@@ -77,7 +87,6 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
     if conso > 5 and not lucidite_ok:
         st.warning("Action bloquée : Réussissez le test de lucidité.")
     else:
-        # Base d'actions étendue
         intros = {
             "Mielleux": ["Je suis vraiment navré pour les {h}h,", "Toutes mes excuses,", "Je m'en veux terriblement,"],
             "Râleur": ["Franchement ça me gonfle,", "Encore un plan galère,", "Marre d'être bloqué ici,"],
