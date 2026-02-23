@@ -5,25 +5,88 @@ import time
 # Configuration
 st.set_page_config(page_title="Rugby Stealth Pro", page_icon="🏉", layout="wide")
 
-# --- STYLE CSS ---
+# --- STYLE CSS (CORRECTION CONTRASTE & COULEURS) ---
 st.markdown("""
     <style>
     .stApp { background-color: #0e1117; color: white; }
-    label, .stMarkdown p, .stText { color: white !important; font-weight: 500; }
-    section[data-testid="stSidebar"] .stMarkdown p, section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] label { color: white !important; }
-    .stButton>button { width: 100%; background-color: #d62828 !important; color: white !important; border-radius: 8px; height: 3.5em; font-weight: bold; border: none; }
-    .excuse-box { background-color: #1c2128; padding: 20px; border-radius: 10px; border-left: 6px solid #d62828; color: #f0f6fc !important; font-style: italic; font-size: 1.2em; }
-    .finops-card { background-color: #161b22; padding: 20px; border-radius: 12px; border: 1px solid #30363d; text-align: center; margin-bottom: 20px; }
-    .finops-card small { color: #8b949e !important; font-weight: bold; }
-    .metric-value { font-size: 32px; font-weight: bold; color: #d62828 !important; }
-    .proof-box { background-color: #000000; border-radius: 15px; padding: 15px; font-family: sans-serif; max-width: 300px; margin: 10px auto; border: 1px solid #333; }
+    
+    /* Correction globale des labels et textes */
+    label, .stMarkdown p, .stText, [data-testid="stHeader"] { 
+        color: white !important; 
+        font-weight: 500; 
+    }
+
+    /* Sidebar - Contraste renforcé */
+    section[data-testid="stSidebar"] {
+        background-color: #111418 !important;
+    }
+    section[data-testid="stSidebar"] .stMarkdown p, 
+    section[data-testid="stSidebar"] label { 
+        color: white !important; 
+    }
+
+    /* Boutons */
+    .stButton>button { 
+        width: 100%; 
+        background-color: #d62828 !important; 
+        color: white !important; 
+        border-radius: 8px; 
+        height: 3.5em; 
+        font-weight: bold; 
+        border: none; 
+    }
+    
+    /* Boite d'excuse */
+    .excuse-box { 
+        background-color: #1c2128; 
+        padding: 20px; 
+        border-radius: 10px; 
+        border-left: 6px solid #d62828; 
+        color: #f0f6fc !important; 
+        font-style: italic; 
+        font-size: 1.2em; 
+    }
+
+    /* Dashboard ROI - Couleurs fixées */
+    .finops-card { 
+        background-color: #000000; 
+        padding: 20px; 
+        border-radius: 12px; 
+        border: 1px solid #d62828; 
+        text-align: center; 
+        margin-bottom: 20px; 
+    }
+    .finops-card small { 
+        color: #ffffff !important; 
+        font-weight: bold; 
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .metric-value { 
+        font-size: 32px; 
+        font-weight: bold; 
+        color: #d62828 !important; 
+        display: block;
+        margin-top: 5px;
+    }
+
+    /* Bloc de Preuve */
+    .proof-box { 
+        background-color: #000000; 
+        border-radius: 15px; 
+        padding: 15px; 
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+        max-width: 300px; 
+        margin: 10px auto; 
+        border: 1px solid #333; 
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR : DASHBOARD ANALYTIQUE ---
+# --- SIDEBAR : DASHBOARD ---
 with st.sidebar:
     st.header("📊 Dashboard")
-    st.write("Optimisation de la soirée")
+    st.write("Gestion des risques")
     
     conso = st.slider("Unités consommées", 0, 15, 2)
     tension = st.slider("Indice de tension (1-10)", 1, 10, 3)
@@ -32,7 +95,7 @@ with st.sidebar:
     
     st.markdown(f"""
         <div class="finops-card">
-            <small>SCORE DE RENTABILITÉ (ROI)</small><br/>
+            <small>SCORE DE RENTABILITÉ</small>
             <span class="metric-value">{roi_score:.1f}/20</span>
         </div>
     """, unsafe_allow_html=True)
@@ -45,7 +108,7 @@ with st.sidebar:
         st.error("🚨 DÉFICIT CRITIQUE")
 
 # --- CORPS DE L'APPLICATION ---
-st.title("🏉 Third Time - Master Edition")
+st.title("🏉 Third Time - Master")
 
 col_left, col_right = st.columns([2, 1])
 
@@ -59,21 +122,19 @@ with col_left:
         h_prevu = st.number_input("Heure prévue :", 0, 23, 19)
         res = st.selectbox("Résultat match :", ["Victoire", "Défaite", "Nul"])
 
-    # --- TEST DE LUCIDITÉ CONDITIONNEL ---
+    # --- TEST DE LUCIDITÉ ---
     est_lucide = True
-    # Le test n'apparaît que si conso > 3
     if conso > 3:
         st.subheader("2. Check de Lucidité 🚨")
         phrase_secu = "Le ballon est ovale."
-        st.caption(f"Sécurité activée (>3 unités). Recopiez : **{phrase_secu}**")
+        st.caption(f"Sécurité activée. Recopiez : **{phrase_secu}**")
         user_test = st.text_input("Vérification :")
         est_lucide = (user_test.strip().lower() == phrase_secu.lower())
     else:
-        user_test = "RAS" # Pour éviter les erreurs de variable
+        user_test = "RAS"
 
     # MOTEUR DE GÉNÉRATION
     def generate_excuse(categorie, ton_choisi, resultat, heure, lucide):
-        # Si le test a échoué (uniquement si conso > 3)
         if not lucide and conso > 3:
             return f"Bloqué au club pour {categorie}. Je vais rater les {heure}h, je fais au plus vite."
 
@@ -86,7 +147,7 @@ with col_left:
         actions = {
             "Solidarité": ["un pote a un gros souci perso", "le capitaine a un coup de mou", "le 9 est en burn-out moral", "un ancien ne va pas bien", "on aide un gars sans voiture"],
             "Santé": ["un pote a pris un énorme choc", "un gars a fait un malaise", "on attend l'ambulance pour le 3", "le soigneur surveille un gars KO", "un joueur s'est ouvert l'arcade"],
-            "Transports": ["métro totalement à l'arrêt", "colis suspect dans ma rame", "panne de signalisation", "incident voyageur", "grève surprise"],
+            "Transports": ["métro totalement à l'arrêt", "incident sur la ligne", "panne de signalisation", "incident voyageur", "trafic très perturbé"],
             "Club": ["coach a verrouillé pour débrief", "président fait un discours", "corvée de rangement", "réunion administrative", "le staff fait un point individuel"]
         }
         
@@ -108,20 +169,19 @@ with col_left:
 
     if st.button("🚀 GÉNÉRER"):
         if conso > 3 and not est_lucide and user_test == "":
-            st.error("Veuillez valider le test de lucidité.")
+            st.error("Validez le test de lucidité.")
         else:
             msg = generate_excuse(cat, ton, res, h_prevu, est_lucide)
             st.markdown(f"<div class='excuse-box'>« {msg} »</div>", unsafe_allow_html=True)
-            risks = {"Transports": 20, "Club": 50, "Solidarité": 75, "Santé": 95}
+            risks = {"Transports": 20, "Club": 40, "Solidarité": 70, "Santé": 90}
             st.progress(risks[cat]/100)
-            st.caption(f"Indice de risque : {risks[cat]}%")
 
 with col_right:
     st.subheader("🖼️ Preuve")
     if st.button("Générer Notif"):
         if cat == "Transports":
-            st.markdown('<div class="proof-box"><small style="color:#aaa">RATP • Maintenant</small><br><b style="color:white">⚠️ Trafic interrompu</b><br><small style="color:#ddd">Colis suspect. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
+            st.markdown('<div class="proof-box"><small style="color:#aaa">INFO TRAFIC • Maintenant</small><br><b style="color:white">⚠️ Trafic interrompu</b><br><small style="color:#ddd">Incident sur votre ligne. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
         elif cat == "Club":
-            st.markdown('<div class="proof-box"><small style="color:#aaa">WhatsApp • Rugby</small><br><b style="color:white">Coach 🏉</b><br><small style="color:#ddd">Réunion obligatoire au vestiaire tout de suite.</small></div>', unsafe_allow_html=True)
+            st.markdown('<div class="proof-box"><small style="color:#aaa">WhatsApp • Rugby</small><br><b style="color:white">Coach 🏉</b><br><small style="color:#ddd">Réunion obligatoire au vestiaire. Personne ne sort.</small></div>', unsafe_allow_html=True)
         else:
             st.info("Pas de preuve nécessaire.")
