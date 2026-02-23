@@ -131,18 +131,18 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
             "Solidarité": [
                 "un pote a un gros souci et on fait bloc", "le capitaine a un énorme coup de mou post-match", 
                 "le 9 est en plein burn-out moral", "un ancien ne va pas bien du tout",
-                "on soutient le soigneur qui a un coup dur", "un gars vient de se faire larguer, on l'épaule",
+                "on soutient le coach qui a un coup dur", "un gars vient de se faire larguer, on l'épaule",
                 "on discute avec le petit nouveau qui est démoralisé", "le groupe est mobilisé pour un pote qui a un pépin familial",
                 "on fait bloc autour d'un gars qui a une mauvaise nouvelle", "on attend la famille d'un joueur qui a un souci",
                 "un coéquipier a perdu ses clés et toute l'équipe aide à chercher", "on accompagne un gars qui n'a pas le moral au vestiaire"
             ],
             "Santé": [
-                "on attend l'ambulance pour un blessé sérieux", "un gars a fait un malaise après l'effort", 
+                "on attend l'ambulance pour un blessé", "un gars a fait un malaise après l'effort", 
                 "le soigneur me demande de surveiller un gars KO", "suspicion de fracture pour mon binôme",
-                "protocole commotion en cours pour un joueur", "on gère une grosse entorse au vestiaire",
-                "le médecin du club fait passer des tests de sécurité", "on attend les pompiers pour un choc sévère",
+                "protocole commotion en cours pour un joueur", "on gère une grosse entorse pour notre pillier au vestiaire",
+                "le médecin du club fait passer des tests de sécurité à notre 3e ligne", "on attend les pompiers pour un choc sévère sur notre ailier",
                 "un joueur s'est ouvert l'arcade, on attend les points", "je reste avec un gars qui a une chute de tension",
-                "on gère un traumatisme crânien léger en attendant le SAMU", "le doc veut vérifier l'état de tout le monde"
+                "on gère un traumatisme crânien léger pour notre centre, on est en train d'appeler le SAMU", "le doc veut vérifier l'état de tout le monde"
             ],
             "Transports": [
                 "le trafic est totalement interrompu sur ma ligne", "incident voyageur majeur bloque les rames", 
