@@ -4,45 +4,37 @@ import random
 # Configuration
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (FIX FINAL MOBILE + TOUT VISIBLE) ---
+# --- STYLE CSS (BOUTON MENU PERSONNALISÉ + FIXES) ---
 st.markdown("""
     <style>
-    /* 1. FORCE LE THÈME CLAIR AU NIVEAU DES VARIABLES */
+    /* 1. FORCE LE THÈME CLAIR */
     :root {
         --primary-color: #28a745;
         --background-color: #f8f9fa;
-        --secondary-background-color: #e9ecef;
         --text-color: #000000;
     }
 
     .stApp { background-color: #f8f9fa; color: #000000; }
     
-    /* 2. LE CORRECTIF ULTIME POUR LA FLÈCHE SIDEBAR (HAMBURGER) MOBILE */
+    /* 2. CACHER LA FLÈCHE NATIVE QUI POSE PROBLÈME */
     [data-testid="stSidebarCollapsedControl"] {
-        background-color: #28a745 !important;
-        border-radius: 0 8px 8px 0 !important;
-        left: 0 !important;
-        top: 10px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 45px !important;
-        height: 45px !important;
-    }
-    
-    [data-testid="stSidebarCollapsedControl"] svg {
-        fill: white !important;
-        color: white !important;
-        width: 28px !important;
-        height: 28px !important;
+        display: none !important;
     }
 
-    /* 3. FORCE LE NOIR SUR TOUT LE TEXTE DES LABELS */
+    /* 3. STYLE DU NOUVEAU BOUTON MENU (FLOTTANT) */
+    .menu-btn-container {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+    }
+
+    /* 4. FORCE LE NOIR SUR TOUT LE TEXTE */
     label, p, span, h1, h2, h3, [data-testid="stWidgetLabel"] p {
         color: #000000 !important; font-weight: 700 !important;
     }
     
-    /* 4. FIX SELECTBOX (BOUTON VERT, TEXTE BLANC) */
+    /* 5. FIX SELECTBOX */
     div[data-baseweb="select"] > div {
         background-color: #28a745 !important;
         color: #ffffff !important;
@@ -53,7 +45,7 @@ st.markdown("""
         fill: #ffffff !important;
     }
 
-    /* 5. FIX DROPDOWN (MENU OUVERT : BLANC ET NOIR) */
+    /* 6. FIX DROPDOWN */
     div[data-baseweb="popover"], ul[role="listbox"] {
         background-color: #ffffff !important;
     }
@@ -61,14 +53,11 @@ st.markdown("""
         color: #000000 !important;
         background-color: #ffffff !important;
     }
-    li[role="option"]:hover {
-        background-color: #e9ecef !important;
-    }
 
-    /* 6. SIDEBAR */
+    /* 7. SIDEBAR */
     [data-testid="stSidebar"] { background-color: #e9ecef !important; border-right: 1px solid #ddd; }
 
-    /* 7. BOUTONS VERTS */
+    /* 8. BOUTONS VERTS */
     .stButton>button { 
         width: 100%; 
         background-color: #28a745 !important; 
@@ -81,7 +70,7 @@ st.markdown("""
         font-size: 1.1rem;
     }
 
-    /* 8. BOXES */
+    /* 9. BOXES */
     .excuse-box { 
         background-color: #ffffff; padding: 20px; border-radius: 10px; 
         border: 3px solid #28a745; color: #000000 !important; font-style: italic; font-size: 1.1rem;
@@ -93,6 +82,12 @@ st.markdown("""
     .metric-value { font-size: 3rem; font-weight: bold; color: #28a745 !important; display: block; }
     </style>
     """, unsafe_allow_html=True)
+
+# --- BOUTON MENU PERSONNALISÉ (DÉCLENCHEUR JAVASCRIPT) ---
+# Ce petit composant permet d'ouvrir la sidebar en cliquant sur un bouton visible
+if st.button("📊 Menu Dashboard"):
+    # On utilise un hack pour forcer l'ouverture du menu latéral
+    st.markdown('<script>window.parent.document.querySelector("[data-testid=\'stSidebarCollapsedControl\'] button").click();</script>', unsafe_allow_html=True)
 
 # --- SIDEBAR : DASHBOARD ROI ---
 with st.sidebar:
@@ -134,38 +129,10 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
         }
         
         actions = {
-            "Solidarité": [
-                "un pote a un gros souci et on fait bloc", "le capitaine a un énorme coup de mou post-match", 
-                "le 9 est en plein burn-out moral", "un ancien ne va pas bien du tout",
-                "on soutient le soigneur qui a un coup dur", "un gars vient de se faire larguer, on l'épaule",
-                "on discute avec le petit nouveau qui est démoralisé", "le groupe est mobilisé pour un pote qui a un pépin familial",
-                "on fait bloc autour d'un gars qui a une mauvaise nouvelle", "on attend la famille d'un joueur qui a un souci",
-                "un coéquipier a perdu ses clés et toute l'équipe aide à chercher", "on accompagne un gars qui n'a pas le moral au vestiaire"
-            ],
-            "Santé": [
-                "on attend l'ambulance pour un blessé sérieux", "un gars a fait un malaise après l'effort", 
-                "le soigneur me demande de surveiller un gars KO", "suspicion de fracture pour mon binôme",
-                "protocole commotion en cours pour un joueur", "on gère une grosse entorse au vestiaire",
-                "le médecin du club fait passer des tests de sécurité", "on attend les pompiers pour un choc sévère",
-                "un joueur s'est ouvert l'arcade, on attend les points", "je reste avec un gars qui a une chute de tension",
-                "on gère un traumatisme crânien léger en attendant le SAMU", "le doc veut vérifier l'état de tout le monde"
-            ],
-            "Transports": [
-                "le trafic est totalement interrompu sur ma ligne", "incident voyageur majeur bloque les rames", 
-                "panne de signalisation paralyse le réseau", "un colis suspect retient mon train",
-                "travaux de nuit imprévus sur les voies", "accident sur la voie express",
-                "le bus de remplacement est en panne", "une porte est bloquée, le train ne part pas",
-                "incident technique majeur sur les voies SNCF", "plus aucune rame ne circule avant un moment",
-                "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
-            ],
-            "Club": [
-                "le coach nous retient pour un débriefing", "le président fait un discours interminable", 
-                "corvée de rangement des maillots et des sacs", "le staff fait un point individuel",
-                "réunion sur le calendrier de la saison", "inventaire du matos de l'école de rugby",
-                "débriefing tactique sur le bord du terrain", "le bureau nous retient pour signer les licences",
-                "réunion de crise sur le prochain déplacement", "on range les poteaux mobiles et les filets",
-                "l'arbitre fait un point sur les règles au vestiaire", "on nettoie le local suite à une sanction"
-            ]
+            "Solidarité": ["un pote a un gros souci et on fait bloc", "le capitaine a un énorme coup de mou post-match", "le 9 est en plein burn-out moral", "un ancien ne va pas bien du tout", "on soutient le soigneur qui a un coup dur", "un gars vient de se faire larguer, on l'épaule", "on discute avec le petit nouveau qui est démoralisé", "le groupe est mobilisé pour un pote qui a un pépin familial", "on fait bloc autour d'un gars qui a une mauvaise nouvelle", "on attend la famille d'un joueur qui a un souci", "un coéquipier a perdu ses clés et toute l'équipe aide à chercher", "on accompagne un gars qui n'a pas le moral au vestiaire"],
+            "Santé": ["on attend l'ambulance pour un blessé sérieux", "un gars a fait un malaise après l'effort", "le soigneur me demande de surveiller un gars KO", "suspicion de fracture pour mon binôme", "protocole commotion en cours pour un joueur", "on gère une grosse entorse au vestiaire", "le médecin du club fait passer des tests de sécurité", "on attend les pompiers pour un choc sévère", "un joueur s'est ouvert l'arcade, on attend les points", "je reste avec un gars qui a une chute de tension", "on gère un traumatisme crânien léger en attendant le SAMU", "le doc veut vérifier l'état de tout le monde"],
+            "Transports": ["le trafic est totalement interrompu sur ma ligne", "incident voyageur majeur bloque les rames", "panne de signalisation paralyse le réseau", "un colis suspect retient mon train", "travaux de nuit imprévus sur les voies", "accident sur la voie express", "le bus de remplacement est en panne", "une porte est bloquée, le train ne part pas", "incident technique majeur sur les voies SNCF", "plus aucune rame ne circule avant un moment", "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"],
+            "Club": ["le coach nous retient pour un débriefing", "le président fait un discours interminable", "corvée de rangement des maillots et des sacs", "le staff fait un point individuel", "réunion sur le calendrier de la saison", "inventaire du matos de l'école de rugby", "débriefing tactique sur le bord du terrain", "le bureau nous retient pour signer les licences", "réunion de crise sur le prochain déplacement", "on range les poteaux mobiles et les filets", "l'arbitre fait un point sur les règles au vestiaire", "on nettoie le local suite à une sanction"]
         }
         
         i = random.choice(intros[ton]).format(h=h_prevu)
