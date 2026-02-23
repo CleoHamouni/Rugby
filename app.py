@@ -5,80 +5,18 @@ import time
 # Configuration
 st.set_page_config(page_title="Rugby Stealth Pro", page_icon="🏉", layout="wide")
 
-# --- STYLE CSS (CORRECTION DES CONTRASTES) ---
+# --- STYLE CSS ---
 st.markdown("""
     <style>
-    /* Fond de l'application */
     .stApp { background-color: #0e1117; color: white; }
-    
-    /* Correction pour tous les labels (Vérification, Heure, etc.) */
-    label, .stMarkdown p, .stText {
-        color: white !important;
-        font-weight: 500;
-    }
-
-    /* Correction spécifique pour la barre latérale */
-    section[data-testid="stSidebar"] .stMarkdown p, 
-    section[data-testid="stSidebar"] h1, 
-    section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] label {
-        color: white !important;
-    }
-
-    /* Boutons */
-    .stButton>button { 
-        width: 100%; 
-        background-color: #d62828 !important; 
-        color: white !important; 
-        border-radius: 8px; 
-        height: 3.5em; 
-        font-weight: bold; 
-        border: none;
-    }
-    
-    /* Boite d'excuse */
-    .excuse-box { 
-        background-color: #1c2128; 
-        padding: 20px; 
-        border-radius: 10px; 
-        border-left: 6px solid #d62828; 
-        color: #f0f6fc !important; 
-        font-style: italic; 
-        font-size: 1.2em;
-    }
-
-    /* FinOps Dashboard dans la sidebar */
-    .finops-card { 
-        background-color: #161b22; 
-        padding: 20px; 
-        border-radius: 12px; 
-        border: 1px solid #30363d; 
-        text-align: center; 
-        margin-bottom: 20px; 
-    }
-    
-    /* Texte "Score de rentabilité" forcé en blanc */
-    .finops-card small {
-        color: #8b949e !important;
-        font-weight: bold;
-    }
-    
-    .metric-value { 
-        font-size: 32px; 
-        font-weight: bold; 
-        color: #d62828 !important; 
-    }
-
-    /* Simulateur de notification */
-    .proof-box { 
-        background-color: #000000; 
-        border-radius: 15px; 
-        padding: 15px; 
-        font-family: sans-serif; 
-        max-width: 300px; 
-        margin: 10px auto; 
-        border: 1px solid #333; 
-    }
+    label, .stMarkdown p, .stText { color: white !important; font-weight: 500; }
+    section[data-testid="stSidebar"] .stMarkdown p, section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] label { color: white !important; }
+    .stButton>button { width: 100%; background-color: #d62828 !important; color: white !important; border-radius: 8px; height: 3.5em; font-weight: bold; border: none; }
+    .excuse-box { background-color: #1c2128; padding: 20px; border-radius: 10px; border-left: 6px solid #d62828; color: #f0f6fc !important; font-style: italic; font-size: 1.2em; }
+    .finops-card { background-color: #161b22; padding: 20px; border-radius: 12px; border: 1px solid #30363d; text-align: center; margin-bottom: 20px; }
+    .finops-card small { color: #8b949e !important; font-weight: bold; }
+    .metric-value { font-size: 32px; font-weight: bold; color: #d62828 !important; }
+    .proof-box { background-color: #000000; border-radius: 15px; padding: 15px; font-family: sans-serif; max-width: 300px; margin: 10px auto; border: 1px solid #333; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -90,7 +28,6 @@ with st.sidebar:
     conso = st.slider("Unités consommées", 0, 15, 2)
     tension = st.slider("Indice de tension (1-10)", 1, 10, 3)
     
-    # Calcul du ROI
     roi_score = max(0, 20 - (conso * 1.2) - (tension * 1.5))
     
     st.markdown(f"""
@@ -122,16 +59,22 @@ with col_left:
         h_prevu = st.number_input("Heure prévue :", 0, 23, 19)
         res = st.selectbox("Résultat match :", ["Victoire", "Défaite", "Nul"])
 
-    # --- TEST DE LUCIDITÉ ---
-    st.subheader("2. Check de Lucidité")
-    phrase_secu = "L'intelligence artificielle optimise la gouvernance des données."
-    st.caption(f"Recopiez exactement : **{phrase_secu}**")
-    user_test = st.text_input("Vérification :")
-    est_lucide = (user_test.strip() == phrase_secu)
+    # --- TEST DE LUCIDITÉ CONDITIONNEL ---
+    est_lucide = True
+    # Le test n'apparaît que si conso > 3
+    if conso > 3:
+        st.subheader("2. Check de Lucidité 🚨")
+        phrase_secu = "Le ballon est ovale."
+        st.caption(f"Sécurité activée (>3 unités). Recopiez : **{phrase_secu}**")
+        user_test = st.text_input("Vérification :")
+        est_lucide = (user_test.strip().lower() == phrase_secu.lower())
+    else:
+        user_test = "RAS" # Pour éviter les erreurs de variable
 
     # MOTEUR DE GÉNÉRATION
     def generate_excuse(categorie, ton_choisi, resultat, heure, lucide):
-        if not lucide and user_test != "":
+        # Si le test a échoué (uniquement si conso > 3)
+        if not lucide and conso > 3:
             return f"Bloqué au club pour {categorie}. Je vais rater les {heure}h, je fais au plus vite."
 
         intros = {
@@ -164,8 +107,8 @@ with col_left:
         return f"{i} {a}, {c}"
 
     if st.button("🚀 GÉNÉRER"):
-        if user_test == "" and ton != "Factuel":
-            st.error("Prouvez votre lucidité pour les messages complexes.")
+        if conso > 3 and not est_lucide and user_test == "":
+            st.error("Veuillez valider le test de lucidité.")
         else:
             msg = generate_excuse(cat, ton, res, h_prevu, est_lucide)
             st.markdown(f"<div class='excuse-box'>« {msg} »</div>", unsafe_allow_html=True)
