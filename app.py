@@ -5,22 +5,87 @@ import time
 # Configuration
 st.set_page_config(page_title="Rugby Stealth Pro", page_icon="🏉", layout="wide")
 
-# --- STYLE CSS ---
+# --- STYLE CSS (CORRECTION DES CONTRASTES) ---
 st.markdown("""
     <style>
+    /* Fond de l'application */
     .stApp { background-color: #0e1117; color: white; }
-    .stButton>button { width: 100%; background-color: #d62828 !important; color: white !important; border-radius: 8px; height: 3.5em; font-weight: bold; border: none; }
-    .excuse-box { background-color: #1c2128; padding: 20px; border-radius: 10px; border-left: 6px solid #d62828; color: #f0f6fc; font-style: italic; font-size: 1.2em; }
-    .finops-card { background-color: #161b22; padding: 20px; border-radius: 12px; border: 1px solid #30363d; text-align: center; margin-bottom: 20px; }
-    .metric-value { font-size: 32px; font-weight: bold; color: #d62828; }
-    .proof-box { background-color: #000000; border-radius: 15px; padding: 15px; font-family: sans-serif; max-width: 300px; margin: 10px auto; border: 1px solid #333; }
+    
+    /* Correction pour tous les labels (Vérification, Heure, etc.) */
+    label, .stMarkdown p, .stText {
+        color: white !important;
+        font-weight: 500;
+    }
+
+    /* Correction spécifique pour la barre latérale */
+    section[data-testid="stSidebar"] .stMarkdown p, 
+    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] label {
+        color: white !important;
+    }
+
+    /* Boutons */
+    .stButton>button { 
+        width: 100%; 
+        background-color: #d62828 !important; 
+        color: white !important; 
+        border-radius: 8px; 
+        height: 3.5em; 
+        font-weight: bold; 
+        border: none;
+    }
+    
+    /* Boite d'excuse */
+    .excuse-box { 
+        background-color: #1c2128; 
+        padding: 20px; 
+        border-radius: 10px; 
+        border-left: 6px solid #d62828; 
+        color: #f0f6fc !important; 
+        font-style: italic; 
+        font-size: 1.2em;
+    }
+
+    /* FinOps Dashboard dans la sidebar */
+    .finops-card { 
+        background-color: #161b22; 
+        padding: 20px; 
+        border-radius: 12px; 
+        border: 1px solid #30363d; 
+        text-align: center; 
+        margin-bottom: 20px; 
+    }
+    
+    /* Texte "Score de rentabilité" forcé en blanc */
+    .finops-card small {
+        color: #8b949e !important;
+        font-weight: bold;
+    }
+    
+    .metric-value { 
+        font-size: 32px; 
+        font-weight: bold; 
+        color: #d62828 !important; 
+    }
+
+    /* Simulateur de notification */
+    .proof-box { 
+        background-color: #000000; 
+        border-radius: 15px; 
+        padding: 15px; 
+        font-family: sans-serif; 
+        max-width: 300px; 
+        margin: 10px auto; 
+        border: 1px solid #333; 
+    }
     </style>
     """, unsafe_allow_html=True)
 
 # --- SIDEBAR : DASHBOARD ANALYTIQUE ---
 with st.sidebar:
-    st.header("📊 Dashboard de Rentabilité")
-    st.write("Optimisation du ROI de la soirée")
+    st.header("📊 Dashboard")
+    st.write("Optimisation de la soirée")
     
     conso = st.slider("Unités consommées", 0, 15, 2)
     tension = st.slider("Indice de tension (1-10)", 1, 10, 3)
@@ -112,8 +177,8 @@ with col_right:
     st.subheader("🖼️ Preuve")
     if st.button("Générer Notif"):
         if cat == "Transports":
-            st.markdown('<div class="proof-box"><small>RATP • Maintenant</small><br><b>⚠️ Trafic interrompu</b><br><small>Colis suspect. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
+            st.markdown('<div class="proof-box"><small style="color:#aaa">RATP • Maintenant</small><br><b style="color:white">⚠️ Trafic interrompu</b><br><small style="color:#ddd">Colis suspect. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
         elif cat == "Club":
-            st.markdown('<div class="proof-box"><small>WhatsApp • Rugby</small><br><b>Coach 🏉</b><br><small>Réunion obligatoire au vestiaire tout de suite.</small></div>', unsafe_allow_html=True)
+            st.markdown('<div class="proof-box"><small style="color:#aaa">WhatsApp • Rugby</small><br><b style="color:white">Coach 🏉</b><br><small style="color:#ddd">Réunion obligatoire au vestiaire tout de suite.</small></div>', unsafe_allow_html=True)
         else:
             st.info("Pas de preuve nécessaire.")
