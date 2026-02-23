@@ -61,6 +61,15 @@ st.markdown("""
         border: 3px solid #000000; text-align: center; margin-bottom: 10px; 
     }
     .metric-value { font-size: 2.5rem; font-weight: bold; color: #28a745 !important; display: block; }
+    
+    /* STYLE POUR L'ANALYSE DU SCORE */
+    .roi-analysis {
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 5px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -76,6 +85,16 @@ with st.expander("📊 RÉGLAGES : RATIO FUN / RISQUE", expanded=False):
     with col_db2:
         roi_score = (conso * 5) - (tension * 3)
         st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
+        
+        # --- ANALYSE DU RATIO ---
+        if roi_score > 40:
+            st.markdown('<div class="roi-analysis" style="background-color:#ffd700; color:black;">🏆 SOIRÉE DE LÉGENDE : Ne rentre jamais !</div>', unsafe_allow_html=True)
+        elif roi_score > 15:
+            st.markdown('<div class="roi-analysis" style="background-color:#28a745; color:white;">✅ ÇA VAUT LE COUP : Le plaisir dépasse le risque.</div>', unsafe_allow_html=True)
+        elif roi_score >= 0:
+            st.markdown('<div class="roi-analysis" style="background-color:#ff9f43; color:black;">⚠️ ZONE GRISE : Sois prudent sur le prochain verre.</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div class="roi-analysis" style="background-color:#dc3545; color:white;">🛑 RENTRE MAINTENANT : Le retour va être complexe.</div>', unsafe_allow_html=True)
 
 st.divider()
 
@@ -96,7 +115,7 @@ if conso > 5:
     reponse = st.text_input(f"Recopiez exactement : {phrase_cible}", key="test_lucide")
     lucidite_ok = (reponse.strip().lower() == phrase_cible.lower()) if reponse else False
 
-# --- MOTEUR COMPLET D'EXCUSES (TOUTES TES ACTIONS SONT ICI) ---
+# --- MOTEUR COMPLET D'EXCUSES ---
 st.divider()
 if st.button("🚀 GÉNÉRER L'EXCUSE"):
     if conso > 5 and not lucidite_ok:
