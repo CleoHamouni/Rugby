@@ -86,7 +86,7 @@ with st.sidebar:
     else: st.warning("📉 DÉFICIT DE FUN")
 
 # --- CORPS DE L'APPLI ---
-st.title("🏉 Third Time")
+st.title("Générateur d'excuse de 3e Mi-temps by THE PADDIES")
 
 st.subheader("1. Paramètres")
 cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
