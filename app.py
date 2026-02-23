@@ -37,7 +37,7 @@ with st.sidebar:
     st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
 
 # --- CORPS DE L'APPLI ---
-st.title("🏉 Third Time")
+st.title("🏉 Générateur d'excuses by The Paddies")
 col1, col2 = st.columns(2)
 with col1:
     cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
