@@ -107,7 +107,8 @@ st.divider()
 # --- FORMULAIRE ---
 col1, col2 = st.columns(2)
 with col1:
-    cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
+    # AJOUT DE LA CATÉGORIE VOITURE
+    cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Voiture", "Club"])
     ton = st.selectbox("Ton :", ["Mielleux", "Râleur", "Factuel"])
 with col2:
     h_prevu = st.number_input("Heure prévue :", 0, 23, 19)
@@ -158,6 +159,14 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
                 "incident technique majeur sur les voies", "plus aucune rame ne circule avant un moment",
                 "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
             ],
+            "Voiture": [
+                "ma batterie est totalement à plat, j'attends des câbles", "j'ai un pneu crevé et le cric du club est cassé",
+                "une voiture me bloque totalement sur le parking du stade", "j'ai perdu mes clés dans l'herbe du terrain",
+                "il y a un accident majeur qui bloque la sortie du complexe", "ma voiture refuse de démarrer, j'attends un pote qui s'y connaît",
+                "le parking a été fermé à clé par erreur avec ma voiture dedans", "j'ai un voyant moteur rouge qui vient de s'allumer",
+                "on m'a pété un rétro sur le parking, je fais le tour pour voir qui c'est", "les flics bloquent l'accès à la rue pour une intervention",
+                "ma portière est gelée/bloquée, je galère à l'ouvrir", "j'ai prêté mes clés à un gars parti aux douches"
+            ],
             "Club": [
                 "le coach nous retient pour un débriefing", "le président fait un discours interminable", 
                 "corvée de rangement des maillots et des sacs", "le staff fait un point individuel",
@@ -194,7 +203,7 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
         # --- CALCUL CRÉDIBILITÉ ---
         base_success = 85 if ton == "Mielleux" else 60
         if cat == "Santé": base_success += 10
-        if cat == "Transports": base_success -= 15
+        if cat == "Transports" or cat == "Voiture": base_success -= 15
         credibility = max(5, min(99, base_success - (conso * 3) - (tension * 2)))
         st.markdown(f"<div class='credibility-gauge'>📊 Probabilité de succès : {credibility}%</div>", unsafe_allow_html=True)
 
@@ -227,6 +236,8 @@ st.divider()
 st.subheader("🖼️ Justificatif")
 if st.button("📸 GÉNÉRER UNE PREUVE"):
     if cat == "Transports":
-        st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">⚠️ INFO TRAFIC</b><br><small style="color:#333">Incident technique à {h_prevu}h. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">⚠️ INFO TRAFIC RATP/SNCF</b><br><small style="color:#333">Incident technique à {h_prevu}h. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
+    elif cat == "Voiture":
+        st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">📍 WAZE / MAPS</b><br><small style="color:#333">Accident signalé. Route saturée (+45 min). Heure d\'arrivée estimée décalée.</small></div>', unsafe_allow_html=True)
     else:
         st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">WhatsApp • Rugby </b><br><small style="color:#333">Coach : Réunion de fin de match obligatoire à {h_prevu}h. Présence indispensable pour débrief technique.</small></div>', unsafe_allow_html=True)
