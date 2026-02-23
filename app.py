@@ -181,7 +181,7 @@ if st.button("🎲 TENTER LE ALL-IN"):
         f"Un des gars à sa voiture qui a était prise par la fourrière, on attends avec lui qui puisse rentrer.",
         f"Plus d'eau chaude, on essaie de relancer la chaudière du stade.",
         f"Sac de maillots égaré juste depuis 1h, on fait l'inventaire complet.",
-        f"On aide un pote à retrouver son alliance sur le terrain.",
+        f"On aide un pote à retrouver ses clefs de moto qu'il à perdu à coté du terrain.",
         f"La grille du complexe fermée par erreur, on est coincés à l'intérieur.",
         f"Fuite d'eau dans le local matos, on sauve les ballons en urgence.",
         f"Débriefing tactique improvisé qui s'éternise depuis 1h.",
@@ -190,7 +190,7 @@ if st.button("🎲 TENTER LE ALL-IN"):
         f"Un gars a oublié son sac avec ses clefs, on attend avec lui qu'on lui rapporte.",
         f"Le club d'en face a un souci de transport, on les dépanne logistiquement.",
         f"Inondation dans les douches, on aide à éponger avant de partir.",
-        f"On aide à charger le matériel de l'école de rugby dans le camion.",
+        f"On aide un pote à retrouver son alliance sur le terrain.",
         f"Le capitaine a égaré les clés du local, on fouille les vestiaires."
     ]
     st.balloons()
