@@ -1,84 +1,31 @@
 import streamlit as st
 import random
-import time
 
-# Configuration
-st.set_page_config(page_title="Rugby Stealth Pro", page_icon="🏉", layout="wide")
+# Configuration optimisée mobile
+st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (CORRECTION CONTRASTE & COULEURS) ---
+# --- STYLE CSS (MOBILE & CONTRASTES) ---
 st.markdown("""
     <style>
     .stApp { background-color: #0e1117; color: white; }
-    
-    /* Correction globale des labels et textes */
-    label, .stMarkdown p, .stText, [data-testid="stHeader"] { 
-        color: white !important; 
-        font-weight: 500; 
-    }
-
-    /* Sidebar - Contraste renforcé */
-    section[data-testid="stSidebar"] {
-        background-color: #111418 !important;
-    }
-    section[data-testid="stSidebar"] .stMarkdown p, 
-    section[data-testid="stSidebar"] label { 
-        color: white !important; 
-    }
-
-    /* Boutons */
+    label, .stMarkdown p, .stText, [data-testid="stHeader"], .stSelectbox label { color: white !important; }
     .stButton>button { 
-        width: 100%; 
-        background-color: #d62828 !important; 
-        color: white !important; 
-        border-radius: 8px; 
-        height: 3.5em; 
-        font-weight: bold; 
-        border: none; 
+        width: 100%; background-color: #d62828 !important; color: white !important; 
+        border-radius: 12px; height: 4em; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px;
     }
-    
-    /* Boite d'excuse */
+    .stTextInput input, .stNumberInput input { height: 3em; font-size: 1.1rem !important; }
     .excuse-box { 
-        background-color: #1c2128; 
-        padding: 20px; 
-        border-radius: 10px; 
-        border-left: 6px solid #d62828; 
-        color: #f0f6fc !important; 
-        font-style: italic; 
-        font-size: 1.2em; 
+        background-color: #1c2128; padding: 20px; border-radius: 10px; 
+        border-left: 6px solid #d62828; color: #f0f6fc !important; font-style: italic; font-size: 1.1em; margin: 15px 0;
     }
-
-    /* Dashboard ROI - Couleurs fixées */
     .finops-card { 
-        background-color: #000000; 
-        padding: 20px; 
-        border-radius: 12px; 
-        border: 1px solid #d62828; 
-        text-align: center; 
-        margin-bottom: 20px; 
+        background-color: #000; padding: 15px; border-radius: 12px; 
+        border: 2px solid #d62828; text-align: center; margin-bottom: 20px; 
     }
-    .finops-card small { 
-        color: #ffffff !important; 
-        font-weight: bold; 
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .metric-value { 
-        font-size: 32px; 
-        font-weight: bold; 
-        color: #d62828 !important; 
-        display: block;
-        margin-top: 5px;
-    }
-
-    /* Bloc de Preuve */
+    .metric-value { font-size: 2.5rem; font-weight: bold; color: #d62828 !important; display: block; }
     .proof-box { 
-        background-color: #000000; 
-        border-radius: 15px; 
-        padding: 15px; 
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-        max-width: 300px; 
-        margin: 10px auto; 
-        border: 1px solid #333; 
+        background-color: #000000; border-radius: 15px; padding: 15px; 
+        font-family: -apple-system, sans-serif; border: 1px solid #333; margin-top: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -86,102 +33,93 @@ st.markdown("""
 # --- SIDEBAR : DASHBOARD ---
 with st.sidebar:
     st.header("📊 Dashboard")
-    st.write("Gestion des risques")
-    
     conso = st.slider("Unités consommées", 0, 15, 2)
-    tension = st.slider("Indice de tension (1-10)", 1, 10, 3)
-    
-    roi_score = max(0, 20 - (conso * 1.2) - (tension * 1.5))
-    
-    st.markdown(f"""
-        <div class="finops-card">
-            <small>SCORE DE RENTABILITÉ</small>
-            <span class="metric-value">{roi_score:.1f}/20</span>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    if roi_score > 14:
-        st.success("✅ OPTIMISÉ")
-    elif roi_score > 8:
-        st.warning("⚖️ BREAK-EVEN")
+    tension = st.slider("Indice de tension", 1, 10, 3)
+    roi_score = max(0, 20 - (conso * 1.5) - (tension * 1.5))
+    st.markdown(f"""<div class="finops-card"><small style="color:white;">SCORE DE RENTABILITÉ</small><span class="metric-value">{roi_score:.1f}/20</span></div>""", unsafe_allow_html=True)
+
+# --- CORPS DE L'APPLI ---
+st.title("🏉 Third Time")
+
+cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
+ton = st.selectbox("Ton :", ["Mielleux", "Râleur", "Factuel"])
+h_prevu = st.number_input("Heure prévue :", 0, 23, 19)
+res = st.selectbox("Résultat match :", ["Victoire", "Défaite", "Nul"])
+
+# --- TEST DE LUCIDITÉ (> 5) ---
+lucidite_ok = True
+if conso > 5:
+    st.divider()
+    st.subheader("🚨 Check de Lucidité")
+    phrase_cible = "Le ballon est ovale"
+    st.write(f"Sécurité active (>5 unités). Recopiez : **{phrase_cible}**")
+    reponse = st.text_input("Vérification :", key="test_lucide")
+    lucidite_ok = (reponse.strip().lower() == phrase_cible.lower()) if reponse else False
+
+# --- GÉNÉRATION ---
+st.divider()
+
+if st.button("🚀 GÉNÉRER L'EXCUSE"):
+    if conso > 5 and not lucidite_ok:
+        st.warning("Action bloquée : Réussissez le test de lucidité.")
     else:
-        st.error("🚨 DÉFICIT CRITIQUE")
-
-# --- CORPS DE L'APPLICATION ---
-st.title("🏉 Third Time - Master")
-
-col_left, col_right = st.columns([2, 1])
-
-with col_left:
-    st.subheader("1. Configuration")
-    c1, c2 = st.columns(2)
-    with c1:
-        cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
-        ton = st.selectbox("Ton :", ["Mielleux", "Râleur", "Factuel"])
-    with c2:
-        h_prevu = st.number_input("Heure prévue :", 0, 23, 19)
-        res = st.selectbox("Résultat match :", ["Victoire", "Défaite", "Nul"])
-
-    # --- TEST DE LUCIDITÉ ---
-    est_lucide = True
-    if conso > 3:
-        st.subheader("2. Check de Lucidité 🚨")
-        phrase_secu = "Le ballon est ovale."
-        st.caption(f"Sécurité activée. Recopiez : **{phrase_secu}**")
-        user_test = st.text_input("Vérification :")
-        est_lucide = (user_test.strip().lower() == phrase_secu.lower())
-    else:
-        user_test = "RAS"
-
-    # MOTEUR DE GÉNÉRATION
-    def generate_excuse(categorie, ton_choisi, resultat, heure, lucide):
-        if not lucide and conso > 3:
-            return f"Bloqué au club pour {categorie}. Je vais rater les {heure}h, je fais au plus vite."
-
+        # --- BASE DE DONNÉES ÉTENDUE ---
         intros = {
-            "Mielleux": ["Je suis vraiment navré pour les {h}h,", "Toutes mes excuses,", "Je m'en veux terriblement,", "Pardonne-moi, je vais rater l'heure de {h}h,"],
-            "Râleur": ["Franchement ça me gonfle,", "Encore un plan galère,", "C'est n'importe quoi,", "Marre d'être bloqué ici,"],
-            "Factuel": ["Bloqué.", "Retard prévu.", "Coincé.", "Changement de programme."]
+            "Mielleux": ["Je suis vraiment navré pour les {h}h,", "Toutes mes excuses pour le retard,", "Je m'en veux terriblement,", "Pardonne-moi, je vais rater l'heure de {h}h,"],
+            "Râleur": ["Franchement ça me gonfle,", "Encore un plan galère,", "C'est n'importe quoi cette journée,", "Marre d'être bloqué ici,"],
+            "Factuel": ["Bloqué.", "Retard prévu pour {h}h.", "Coincé.", "Changement de programme."]
         }
         
         actions = {
-            "Solidarité": ["un pote a un gros souci perso", "le capitaine a un coup de mou", "le 9 est en burn-out moral", "un ancien ne va pas bien", "on aide un gars sans voiture"],
-            "Santé": ["un pote a pris un énorme choc", "un gars a fait un malaise", "on attend l'ambulance pour le 3", "le soigneur surveille un gars KO", "un joueur s'est ouvert l'arcade"],
-            "Transports": ["métro totalement à l'arrêt", "incident sur la ligne", "panne de signalisation", "incident voyageur", "trafic très perturbé"],
-            "Club": ["coach a verrouillé pour débrief", "président fait un discours", "corvée de rangement", "réunion administrative", "le staff fait un point individuel"]
+            "Solidarité": [
+                "un pote a un gros souci perso et on fait bloc", "le capitaine a un énorme coup de mou", 
+                "le 9 est en plein burn-out moral", "un ancien est passé et ne va pas bien", 
+                "un gars vient de se faire larguer au vestiaire", "on soutient le soigneur qui a un coup dur",
+                "un coéquipier a perdu ses clés et on l'aide", "on discute avec le 7 qui est démoralisé"
+            ],
+            "Santé": [
+                "on attend l'ambulance pour un coéquipier blessé", "un gars a fait un malaise après l'effort",
+                "le soigneur me demande de surveiller un gars KO", "un joueur s'est ouvert l'arcade",
+                "suspicion de fracture pour mon binôme", "le 10 est totalement désorienté après un tampon",
+                "un gars s'est déboîté l'épaule", "on attend les pompiers pour un gars d'en face"
+            ],
+            "Transports": [
+                "le trafic est totalement interrompu sur ma ligne", "un incident voyageur bloque tout",
+                "une panne de signalisation paralyse le réseau", "un colis suspect retient mon train à quai",
+                "le bus de substitution est aussi en panne", "une porte est bloquée, le train ne part pas",
+                "travaux de nuit commencés plus tôt que prévu", "incident technique majeur sur les voies"
+            ],
+            "Club": [
+                "le coach nous retient pour un débriefing obligatoire", "le président fait un discours interminable",
+                "on est de corvée de rangement pour l'équipe", "l'arbitre explique ses choix au bar",
+                "on doit signer les licences de toute l'équipe", "le staff fait un point individuel",
+                "on nettoie la buvette suite à une sanction", "le capitaine a verrouillé les sorties pour parler"
+            ]
         }
         
         concls = {
-            "Solidarité": ["on ne peut pas le laisser seul.", "on fait bloc, c'est l'esprit.", "on reste pour l'épauler."],
-            "Santé": ["on attend les secours.", "on attend l'avis du doc.", "je reste tant qu'il n'est pas stable."],
-            "Transports": ["aucune info sur la reprise.", "je cherche un itinéraire bis.", "on patiente sur le quai."],
-            "Club": ["personne ne sort.", "sinon sanction mardi.", "faut finir le débrief."]
+            "Solidarité": ["on ne peut pas le laisser seul.", "on fait bloc, c'est l'esprit.", "on reste pour l'épauler.", "je rentre dès que ça s'apaise."],
+            "Santé": ["je reste tant qu'il n'est pas stable.", "le SAMU est en route, je reste à côté.", "on attend l'avis définitif du doc.", "je l'accompagne jusqu'à sa voiture."],
+            "Transports": ["aucune info sur la reprise du trafic.", "je cherche désespérément un itinéraire bis.", "on nous demande de patienter sur le quai.", "je tente de finir le trajet à pied."],
+            "Club": ["personne ne sort avant la fin.", "si je m'esquive, je suis sanctionné mardi.", "c'est une obligation du président.", "faut finir ça avant de pouvoir partir."]
         }
 
-        i = random.choice(intros[ton_choisi]).format(h=heure)
-        a = random.choice(actions[categorie])
-        c = random.choice(concls[categorie])
+        # Assemblage
+        i = random.choice(intros[ton]).format(h=h_prevu)
+        a = random.choice(actions[cat])
+        c = random.choice(concls[cat])
         
-        if categorie in ["Solidarité", "Club"] and resultat == "Victoire":
-            c = "on savoure cette victoire ensemble."
-            
-        return f"{i} {a}, {c}"
+        # Bonus Victoire
+        if (cat == "Club" or cat == "Solidarité") and res == "Victoire":
+            c = "on savoure cette gagne historique tous ensemble."
 
-    if st.button("🚀 GÉNÉRER"):
-        if conso > 3 and not est_lucide and user_test == "":
-            st.error("Validez le test de lucidité.")
-        else:
-            msg = generate_excuse(cat, ton, res, h_prevu, est_lucide)
-            st.markdown(f"<div class='excuse-box'>« {msg} »</div>", unsafe_allow_html=True)
-            risks = {"Transports": 20, "Club": 40, "Solidarité": 70, "Santé": 90}
-            st.progress(risks[cat]/100)
+        st.markdown(f"<div class='excuse-box'>« {i} {a}, {c} »</div>", unsafe_allow_html=True)
+        st.progress({"Transports": 20, "Club": 40, "Solidarité": 70, "Health": 90}.get(cat, 50) / 100)
 
-with col_right:
-    st.subheader("🖼️ Preuve")
-    if st.button("Générer Notif"):
-        if cat == "Transports":
-            st.markdown('<div class="proof-box"><small style="color:#aaa">INFO TRAFIC • Maintenant</small><br><b style="color:white">⚠️ Trafic interrompu</b><br><small style="color:#ddd">Incident sur votre ligne. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
-        elif cat == "Club":
-            st.markdown('<div class="proof-box"><small style="color:#aaa">WhatsApp • Rugby</small><br><b style="color:white">Coach 🏉</b><br><small style="color:#ddd">Réunion obligatoire au vestiaire. Personne ne sort.</small></div>', unsafe_allow_html=True)
-        else:
-            st.info("Pas de preuve nécessaire.")
+if st.button("🖼️ GÉNÉRER UNE PREUVE"):
+    if cat == "Transports":
+        st.markdown('<div class="proof-box"><small style="color:#aaa">INFO TRAFIC • Maintenant</small><br><b style="color:white">⚠️ Trafic interrompu</b><br><small style="color:#ddd">Incident sur votre ligne. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
+    elif cat == "Club":
+        st.markdown('<div class="proof-box"><small style="color:#aaa">WhatsApp • Groupe Rugby</small><br><b style="color:white">Coach 🏉</b><br><small style="color:#ddd">Réunion obligatoire au vestiaire. Personne ne sort avant la fin du débrief.</small></div>', unsafe_allow_html=True)
+    else:
+        st.info("Pas de preuve nécessaire pour cette catégorie.")
