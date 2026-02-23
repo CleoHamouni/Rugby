@@ -130,13 +130,13 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
                 "panne de signalisation paralyse le réseau", "un colis suspect retient mon train",
                 "travaux de nuit imprévus sur les voies", "accident sur la voie express",
                 "le bus de remplacement est en panne", "une porte est bloquée, le train ne part pas",
-                "incident technique majeur sur les voies SNCF", "plus aucune rame ne circule avant un moment",
+                "incident technique majeur sur les voies", "plus aucune rame ne circule avant un moment",
                 "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
             ],
             "Club": [
                 "le coach nous retient pour un débriefing", "le président fait un discours interminable", 
                 "corvée de rangement des maillots et des sacs", "le staff fait un point individuel",
-                "réunion sur le calendrier de la saison", "inventaire du matos de l'école de rugby",
+                "réunion sur le calendrier de la saison", "inventaire du matos",
                 "débriefing tactique sur le bord du terrain", "le bureau nous retient pour signer les licences",
                 "réunion de crise sur le prochain déplacement", "on range les poteaux mobiles et les filets",
                 "l'arbitre fait un point sur les règles au vestiaire", "on nettoie le local suite à une sanction"
@@ -159,16 +159,16 @@ st.subheader("🎰 Mode Roulette")
 if st.button("🎲 TENTER LE ALL-IN"):
     flash_list = [
         f"Serrure du vestiaire bloquée depuis 1 heure, on attend les doubles.",
-        f"Le bus adverse est embourbé, on aide à pousser pour libérer le parking.",
-        f"Plus d'eau chaude, on essaie de relancer la chaudière du club avec le staff.",
-        f"Sac de maillots égaré juste avant {h_prevu}h, on fait l'inventaire complet.",
-        f"On aide un pote à retrouver son alliance sur le terrain à la frontale.",
-        f"Grille du complexe fermée par erreur, on est coincés à l'intérieur.",
+        f"Un des gars à sa voiture qui a était prise par la fourrière, on attends avec lui qui puisse rentrer.",
+        f"Plus d'eau chaude, on essaie de relancer la chaudière du stade.",
+        f"Sac de maillots égaré juste depuis 1h, on fait l'inventaire complet.",
+        f"On aide un pote à retrouver son alliance sur le terrain.",
+        f"La grille du complexe fermée par erreur, on est coincés à l'intérieur.",
         f"Fuite d'eau dans le local matos, on sauve les ballons en urgence.",
         f"Débriefing tactique improvisé qui s'éternise depuis 1h.",
         f"Le parking est bloqué par un camion de livraison en panne depuis 1h.",
-        f"On doit attendre que le soigneur valide la sortie de tout le monde.",
-        f"Un gars a oublié son sac dans ma voiture, je l'attends pour lui rendre.",
+        f"On doit attendre que le coach recense toutes les blessures.",
+        f"Un gars a oublié son sac avec ses clefs, on attend avec lui qu'on lui rapporte.",
         f"Le club d'en face a un souci de transport, on les dépanne logistiquement.",
         f"Inondation dans les douches, on aide à éponger avant de partir.",
         f"On aide à charger le matériel de l'école de rugby dans le camion.",
@@ -184,4 +184,4 @@ if st.button("📸 GÉNÉRER UNE PREUVE"):
     if cat == "Transports":
         st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">⚠️ INFO TRAFIC</b><br><small style="color:#333">Incident technique à {h_prevu}h. Reprise estimée : Inconnue.</small></div>', unsafe_allow_html=True)
     else:
-        st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">WhatsApp • Rugby Loisir</b><br><small style="color:#333">Coach : Réunion de fin de match obligatoire à {h_prevu}h. Présence indispensable pour débrief technique.</small></div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="background:#fff; padding:15px; border-radius:10px; border:2px solid #000;"><b style="color:black">WhatsApp • Rugby </b><br><small style="color:#333">Coach : Réunion de fin de match obligatoire à {h_prevu}h. Présence indispensable pour débrief technique.</small></div>', unsafe_allow_html=True)
