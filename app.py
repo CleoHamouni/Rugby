@@ -54,7 +54,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🏉 Le 'Droit de Retrait' Rugby")
+st.title("🏉 Le ' Générateur d'excuse pour 3e mi temps' Rugby")
 
 # --- SIDEBAR ---
 with st.sidebar:
