@@ -4,60 +4,42 @@ import random
 # Configuration
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (BOUTON MENU PERSONNALISÉ + FIXES) ---
+# --- STYLE CSS (FIX COMPLET) ---
 st.markdown("""
     <style>
-    /* 1. FORCE LE THÈME CLAIR */
-    :root {
-        --primary-color: #28a745;
-        --background-color: #f8f9fa;
-        --text-color: #000000;
-    }
-
+    /* 1. THÈME GÉNÉRAL */
     .stApp { background-color: #f8f9fa; color: #000000; }
     
-    /* 2. CACHER LA FLÈCHE NATIVE QUI POSE PROBLÈME */
-    [data-testid="stSidebarCollapsedControl"] {
+    /* MASQUAGE SIDEBAR ET FLÈCHE NATIVE */
+    [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {
         display: none !important;
     }
 
-    /* 3. STYLE DU NOUVEAU BOUTON MENU (FLOTTANT) */
-    .menu-btn-container {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1000;
-    }
-
-    /* 4. FORCE LE NOIR SUR TOUT LE TEXTE */
+    /* 2. FORCE LE NOIR SUR TOUT LE TEXTE */
     label, p, span, h1, h2, h3, [data-testid="stWidgetLabel"] p {
         color: #000000 !important; font-weight: 700 !important;
     }
     
-    /* 5. FIX SELECTBOX */
+    /* 3. STYLE DU DASHBOARD (EX-SIDEBAR) */
+    .streamlit-expanderHeader {
+        background-color: #e9ecef !important;
+        border: 2px solid #28a745 !important;
+        border-radius: 10px !important;
+    }
+
+    /* 4. FIX SELECTBOX */
     div[data-baseweb="select"] > div {
         background-color: #28a745 !important;
         color: #ffffff !important;
         border: none !important;
     }
+    div[data-testid="stSelectbox"] svg { fill: #ffffff !important; }
 
-    div[data-testid="stSelectbox"] svg {
-        fill: #ffffff !important;
-    }
+    /* 5. FIX DROPDOWN (LISTE OUVERTE) */
+    div[data-baseweb="popover"], ul[role="listbox"] { background-color: #ffffff !important; }
+    li[role="option"] { color: #000000 !important; background-color: #ffffff !important; }
 
-    /* 6. FIX DROPDOWN */
-    div[data-baseweb="popover"], ul[role="listbox"] {
-        background-color: #ffffff !important;
-    }
-    li[role="option"] {
-        color: #000000 !important;
-        background-color: #ffffff !important;
-    }
-
-    /* 7. SIDEBAR */
-    [data-testid="stSidebar"] { background-color: #e9ecef !important; border-right: 1px solid #ddd; }
-
-    /* 8. BOUTONS VERTS */
+    /* 6. BOUTONS VERTS */
     .stButton>button { 
         width: 100%; 
         background-color: #28a745 !important; 
@@ -66,39 +48,38 @@ st.markdown("""
         height: 3.5em; 
         font-weight: bold; 
         border: none; 
-        margin-top: 10px; 
         font-size: 1.1rem;
     }
 
-    /* 9. BOXES */
+    /* 7. BOXES D'EXCUSES */
     .excuse-box { 
         background-color: #ffffff; padding: 20px; border-radius: 10px; 
         border: 3px solid #28a745; color: #000000 !important; font-style: italic; font-size: 1.1rem;
     }
     .finops-card { 
         background-color: #ffffff; padding: 15px; border-radius: 12px; 
-        border: 3px solid #000000; text-align: center; margin-bottom: 20px; 
+        border: 3px solid #000000; text-align: center; margin-bottom: 10px; 
     }
-    .metric-value { font-size: 3rem; font-weight: bold; color: #28a745 !important; display: block; }
+    .metric-value { font-size: 2.5rem; font-weight: bold; color: #28a745 !important; display: block; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- BOUTON MENU PERSONNALISÉ (DÉCLENCHEUR JAVASCRIPT) ---
-# Ce petit composant permet d'ouvrir la sidebar en cliquant sur un bouton visible
-if st.button("📊 Menu Dashboard"):
-    # On utilise un hack pour forcer l'ouverture du menu latéral
-    st.markdown('<script>window.parent.document.querySelector("[data-testid=\'stSidebarCollapsedControl\'] button").click();</script>', unsafe_allow_html=True)
-
-# --- SIDEBAR : DASHBOARD ROI ---
-with st.sidebar:
-    st.header("📊 Ratio Fun / Risque")
-    conso = st.slider("Verres consommés", 0, 15, 2)
-    tension = st.slider("Taux d'énervement de Madame", 1, 10, 1)
-    roi_score = (conso * 5) - (tension * 3)
-    st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
-
 # --- CORPS DE L'APPLI ---
 st.title("🏉 Générateur d'excuses by The Paddies")
+
+# --- DASHBOARD (REMPLACE LA SIDEBAR) ---
+with st.expander("📊 RÉGLAGES : RATIO FUN / RISQUE", expanded=False):
+    col_db1, col_db2 = st.columns(2)
+    with col_db1:
+        conso = st.slider("Verres consommés", 0, 15, 2)
+        tension = st.slider("Taux d'énervement de Madame", 1, 10, 1)
+    with col_db2:
+        roi_score = (conso * 5) - (tension * 3)
+        st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
+
+st.divider()
+
+# --- FORMULAIRE ---
 col1, col2 = st.columns(2)
 with col1:
     cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
@@ -110,13 +91,12 @@ with col2:
 # --- TEST DE LUCIDITÉ ---
 lucidite_ok = True
 if conso > 5:
-    st.divider()
+    st.info(f"Vérification requise ({conso} verres).")
     phrase_cible = "Le ballon est ovale"
-    st.write(f"Vérification requise (>5u). Recopiez : **{phrase_cible}**")
-    reponse = st.text_input("Saisie :", key="test_lucide")
+    reponse = st.text_input(f"Recopiez exactement : {phrase_cible}", key="test_lucide")
     lucidite_ok = (reponse.strip().lower() == phrase_cible.lower()) if reponse else False
 
-# --- MOTEUR COMPLET D'EXCUSES ---
+# --- MOTEUR COMPLET D'EXCUSES (TOUTES TES ACTIONS SONT ICI) ---
 st.divider()
 if st.button("🚀 GÉNÉRER L'EXCUSE"):
     if conso > 5 and not lucidite_ok:
@@ -129,10 +109,38 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
         }
         
         actions = {
-            "Solidarité": ["un pote a un gros souci et on fait bloc", "le capitaine a un énorme coup de mou post-match", "le 9 est en plein burn-out moral", "un ancien ne va pas bien du tout", "on soutient le soigneur qui a un coup dur", "un gars vient de se faire larguer, on l'épaule", "on discute avec le petit nouveau qui est démoralisé", "le groupe est mobilisé pour un pote qui a un pépin familial", "on fait bloc autour d'un gars qui a une mauvaise nouvelle", "on attend la famille d'un joueur qui a un souci", "un coéquipier a perdu ses clés et toute l'équipe aide à chercher", "on accompagne un gars qui n'a pas le moral au vestiaire"],
-            "Santé": ["on attend l'ambulance pour un blessé sérieux", "un gars a fait un malaise après l'effort", "le soigneur me demande de surveiller un gars KO", "suspicion de fracture pour mon binôme", "protocole commotion en cours pour un joueur", "on gère une grosse entorse au vestiaire", "le médecin du club fait passer des tests de sécurité", "on attend les pompiers pour un choc sévère", "un joueur s'est ouvert l'arcade, on attend les points", "je reste avec un gars qui a une chute de tension", "on gère un traumatisme crânien léger en attendant le SAMU", "le doc veut vérifier l'état de tout le monde"],
-            "Transports": ["le trafic est totalement interrompu sur ma ligne", "incident voyageur majeur bloque les rames", "panne de signalisation paralyse le réseau", "un colis suspect retient mon train", "travaux de nuit imprévus sur les voies", "accident sur la voie express", "le bus de remplacement est en panne", "une porte est bloquée, le train ne part pas", "incident technique majeur sur les voies SNCF", "plus aucune rame ne circule avant un moment", "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"],
-            "Club": ["le coach nous retient pour un débriefing", "le président fait un discours interminable", "corvée de rangement des maillots et des sacs", "le staff fait un point individuel", "réunion sur le calendrier de la saison", "inventaire du matos de l'école de rugby", "débriefing tactique sur le bord du terrain", "le bureau nous retient pour signer les licences", "réunion de crise sur le prochain déplacement", "on range les poteaux mobiles et les filets", "l'arbitre fait un point sur les règles au vestiaire", "on nettoie le local suite à une sanction"]
+            "Solidarité": [
+                "un pote a un gros souci et on fait bloc", "le capitaine a un énorme coup de mou post-match", 
+                "le 9 est en plein burn-out moral", "un ancien ne va pas bien du tout",
+                "on soutient le soigneur qui a un coup dur", "un gars vient de se faire larguer, on l'épaule",
+                "on discute avec le petit nouveau qui est démoralisé", "le groupe est mobilisé pour un pote qui a un pépin familial",
+                "on fait bloc autour d'un gars qui a une mauvaise nouvelle", "on attend la famille d'un joueur qui a un souci",
+                "un coéquipier a perdu ses clés et toute l'équipe aide à chercher", "on accompagne un gars qui n'a pas le moral au vestiaire"
+            ],
+            "Santé": [
+                "on attend l'ambulance pour un blessé sérieux", "un gars a fait un malaise après l'effort", 
+                "le soigneur me demande de surveiller un gars KO", "suspicion de fracture pour mon binôme",
+                "protocole commotion en cours pour un joueur", "on gère une grosse entorse au vestiaire",
+                "le médecin du club fait passer des tests de sécurité", "on attend les pompiers pour un choc sévère",
+                "un joueur s'est ouvert l'arcade, on attend les points", "je reste avec un gars qui a une chute de tension",
+                "on gère un traumatisme crânien léger en attendant le SAMU", "le doc veut vérifier l'état de tout le monde"
+            ],
+            "Transports": [
+                "le trafic est totalement interrompu sur ma ligne", "incident voyageur majeur bloque les rames", 
+                "panne de signalisation paralyse le réseau", "un colis suspect retient mon train",
+                "travaux de nuit imprévus sur les voies", "accident sur la voie express",
+                "le bus de remplacement est en panne", "une porte est bloquée, le train ne part pas",
+                "incident technique majeur sur les voies SNCF", "plus aucune rame ne circule avant un moment",
+                "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
+            ],
+            "Club": [
+                "le coach nous retient pour un débriefing", "le président fait un discours interminable", 
+                "corvée de rangement des maillots et des sacs", "le staff fait un point individuel",
+                "réunion sur le calendrier de la saison", "inventaire du matos de l'école de rugby",
+                "débriefing tactique sur le bord du terrain", "le bureau nous retient pour signer les licences",
+                "réunion de crise sur le prochain déplacement", "on range les poteaux mobiles et les filets",
+                "l'arbitre fait un point sur les règles au vestiaire", "on nettoie le local suite à une sanction"
+            ]
         }
         
         i = random.choice(intros[ton]).format(h=h_prevu)
@@ -145,7 +153,7 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
             
         st.markdown(f"<div class='excuse-box'>« {i} {a}, {c} »</div>", unsafe_allow_html=True)
 
-# --- MODE ROULETTE ---
+# --- MODE ROULETTE (TOUTE LA LISTE) ---
 st.divider()
 st.subheader("🎰 Mode Roulette")
 if st.button("🎲 TENTER LE ALL-IN"):
