@@ -87,7 +87,7 @@ with st.expander("📊 RÉGLAGES : RATIO FUN / RISQUE", expanded=False):
         st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
         
         # --- ANALYSE DU RATIO ---
-        if roi_score > 35:
+        if roi_score > 31:
             st.markdown('<div class="roi-analysis" style="background-color:#ffd700; color:black;">🏆 SOIRÉE DE LÉGENDE : Ne rentre jamais !</div>', unsafe_allow_html=True)
         elif roi_score > 8:
             st.markdown('<div class="roi-analysis" style="background-color:#28a745; color:white;">✅ ÇA VAUT LE COUP : Le plaisir dépasse le risque.</div>', unsafe_allow_html=True)
