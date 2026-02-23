@@ -2,7 +2,7 @@ import streamlit as st
 import random
 
 # Configuration
-st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
+st.set_page_config(page_title="Générateur d'excuse de 3e Mi-temps by THE PADDIES", page_icon="🏉", layout="centered")
 
 # --- STYLE CSS (THÈME CLAIR & TEXTE NOIR) ---
 st.markdown("""
