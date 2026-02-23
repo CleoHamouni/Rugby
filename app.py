@@ -4,7 +4,7 @@ import random
 # Configuration
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (FIX MOBILE + TOUT VISIBLE) ---
+# --- STYLE CSS (FIX SELECTBOX VERT + TOUT VISIBLE) ---
 st.markdown("""
     <style>
     .stApp { background-color: #f8f9fa; color: #000000; }
@@ -14,15 +14,20 @@ st.markdown("""
         color: #000000 !important; font-weight: 700 !important;
     }
     
-    /* FIX MOBILE : MENUS DÉROULANTS (SELECTBOX) */
+    /* FIX MOBILE & DESKTOP : MENUS DÉROULANTS (SELECTBOX) EN VERT */
     div[data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
+        background-color: #28a745 !important;
+        color: #ffffff !important;
+        border: none !important;
     }
     
-    /* Couleur du texte dans les options du menu déroulant */
+    /* Couleur du texte sélectionné et de la petite flèche */
+    div[data-testid="stSelectbox"] svg {
+        fill: #ffffff !important;
+    }
+    
     div[data-testid="stSelectbox"] div div {
-        color: #000000 !important;
+        color: #ffffff !important;
     }
 
     /* SIDEBAR */
@@ -138,7 +143,7 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
             
         st.markdown(f"<div class='excuse-box'>« {i} {a}, {c} »</div>", unsafe_allow_html=True)
 
-# --- MODE ROULETTE (SANS SUPPRESSION) ---
+# --- MODE ROULETTE ---
 st.divider()
 st.subheader("🎰 Mode Roulette")
 if st.button("🎲 TENTER LE ALL-IN"):
