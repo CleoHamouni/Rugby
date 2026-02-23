@@ -96,14 +96,14 @@ st.markdown("""
 
 # --- SIDEBAR : DASHBOARD ROI ---
 with st.sidebar:
-    st.header("📊 Business Intel")
-    conso = st.slider("Unités consommées", 0, 15, 2)
-    tension = st.slider("Indice de tension", 1, 10, 1)
+    st.header("📊 Ratio Fun / Risque")
+    conso = st.slider("Verres consommés", 0, 15, 2)
+    tension = st.slider("Taux d'énervement de Madame", 1, 10, 1)
     roi_score = (conso * 5) - (tension * 3)
     st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
 
 # --- CORPS DE L'APPLI ---
-st.title("🏉 Third Time")
+st.title("🏉 Générateur d'excuses by The Paddies")
 col1, col2 = st.columns(2)
 with col1:
     cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
@@ -183,15 +183,15 @@ st.divider()
 st.subheader("🎰 Mode Roulette")
 if st.button("🎲 TENTER LE ALL-IN"):
     flash_list = [
-        f"Serrure du vestiaire bloquée à {h_prevu}h, on attend les doubles.",
+        f"Serrure du vestiaire bloquée depuis 1 heure, on attend les doubles.",
         f"Le bus adverse est embourbé, on aide à pousser pour libérer le parking.",
         f"Plus d'eau chaude, on essaie de relancer la chaudière du club avec le staff.",
         f"Sac de maillots égaré juste avant {h_prevu}h, on fait l'inventaire complet.",
         f"On aide un pote à retrouver son alliance sur le terrain à la frontale.",
         f"Grille du complexe fermée par erreur, on est coincés à l'intérieur.",
         f"Fuite d'eau dans le local matos, on sauve les ballons en urgence.",
-        f"Débriefing tactique improvisé qui s'éternise depuis {h_prevu}h.",
-        f"Le parking est bloqué par un camion de livraison en panne à {h_prevu}h.",
+        f"Débriefing tactique improvisé qui s'éternise depuis 1h.",
+        f"Le parking est bloqué par un camion de livraison en panne depuis 1h.",
         f"On doit attendre que le soigneur valide la sortie de tout le monde.",
         f"Un gars a oublié son sac dans ma voiture, je l'attends pour lui rendre.",
         f"Le club d'en face a un souci de transport, on les dépanne logistiquement.",
