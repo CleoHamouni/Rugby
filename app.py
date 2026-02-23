@@ -4,49 +4,56 @@ import random
 # Configuration
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (FIX SELECTBOX + DROPDOWN VISIBLE) ---
+# --- STYLE CSS (FIX COMPLET MOBILE + SIDEBAR BUTTON) ---
 st.markdown("""
     <style>
     .stApp { background-color: #f8f9fa; color: #000000; }
     
-    /* FORCE LE NOIR SUR TOUT LE TEXTE HORS MENUS */
+    /* 1. FIX BOUTON SIDEBAR (FLECHE/HAMBURGER MOBILE) */
+    /* On cible le bouton qui ouvre le menu latéral sur mobile */
+    [data-testid="stSidebarCollapsedControl"] button {
+        background-color: #28a745 !important;
+        color: white !important;
+        border-radius: 50%;
+    }
+    /* On s'assure que l'icône à l'intérieur est blanche */
+    [data-testid="stSidebarCollapsedControl"] svg {
+        fill: white !important;
+    }
+
+    /* 2. FORCE LE NOIR SUR TOUT LE TEXTE HORS MENUS */
     label, p, span, h1, h2, h3, [data-testid="stWidgetLabel"] p {
         color: #000000 !important; font-weight: 700 !important;
     }
     
-    /* FIX SELECTBOX (BOUTON FERMÉ) */
+    /* 3. FIX SELECTBOX (BOUTON FERMÉ) */
     div[data-baseweb="select"] > div {
         background-color: #28a745 !important;
         color: #ffffff !important;
         border: none !important;
     }
 
-    /* FIX FLÈCHE (SVG) */
+    /* 4. FIX FLÈCHE INTERNE SELECTBOX (SVG) */
     div[data-testid="stSelectbox"] svg {
         fill: #ffffff !important;
     }
 
-    /* FIX DROPDOWN (MENU OUVERT) */
-    /* On cible la liste qui apparaît quand on clique */
+    /* 5. FIX DROPDOWN (MENU OUVERT) */
     ul[role="listbox"] {
         background-color: #ffffff !important;
     }
-    
-    /* On cible les options individuelles dans la liste */
     li[role="option"] {
         color: #000000 !important;
         background-color: #ffffff !important;
     }
-    
-    /* Couleur au survol (hover) dans la liste */
     li[role="option"]:hover {
         background-color: #e9ecef !important;
     }
 
-    /* SIDEBAR */
+    /* 6. SIDEBAR */
     [data-testid="stSidebar"] { background-color: #e9ecef !important; border-right: 1px solid #ddd; }
 
-    /* BOUTONS VERTS */
+    /* 7. BOUTONS VERTS */
     .stButton>button { 
         width: 100%; 
         background-color: #28a745 !important; 
@@ -59,7 +66,7 @@ st.markdown("""
         font-size: 1.1rem;
     }
 
-    /* BOXES */
+    /* 8. BOXES ET CARTES */
     .excuse-box { 
         background-color: #ffffff; padding: 20px; border-radius: 10px; 
         border: 3px solid #28a745; color: #000000 !important; font-style: italic; font-size: 1.1rem;
