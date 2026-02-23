@@ -89,7 +89,7 @@ with st.expander("📊 RÉGLAGES : RATIO FUN / RISQUE", expanded=False):
         # --- ANALYSE DU RATIO ---
         if roi_score > 35:
             st.markdown('<div class="roi-analysis" style="background-color:#ffd700; color:black;">🏆 SOIRÉE DE LÉGENDE : Ne rentre jamais !</div>', unsafe_allow_html=True)
-        elif roi_score > 12:
+        elif roi_score > 8:
             st.markdown('<div class="roi-analysis" style="background-color:#28a745; color:white;">✅ ÇA VAUT LE COUP : Le plaisir dépasse le risque.</div>', unsafe_allow_html=True)
         elif roi_score >= 0:
             st.markdown('<div class="roi-analysis" style="background-color:#ff9f43; color:black;">⚠️ ZONE GRISE : Sois prudent sur le prochain verre.</div>', unsafe_allow_html=True)
