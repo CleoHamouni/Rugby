@@ -153,8 +153,8 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
             "Transports": [
                 "le trafic est totalement interrompu sur ma ligne", "incident voyageur majeur bloque les rames", 
                 "panne de signalisation paralyse le réseau", "un colis suspect retient mon train",
-                "travaux de nuit imprévus sur les voies", "accident sur la voie express",
-                "le bus de remplacement est en panne", "une porte est bloquée, le train ne part pas",
+                "travaux imprévus sur les voies", "accident sur la voie",
+                "le bus de remplacement est en panne", "une porte est bloquée, le metro ne part pas",
                 "incident technique majeur sur les voies", "plus aucune rame ne circule avant un moment",
                 "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
             ],
