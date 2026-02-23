@@ -4,36 +4,49 @@ import random
 # Configuration
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (FIX SELECTBOX VERT + TOUT VISIBLE) ---
+# --- STYLE CSS (FIX SELECTBOX + DROPDOWN VISIBLE) ---
 st.markdown("""
     <style>
     .stApp { background-color: #f8f9fa; color: #000000; }
     
-    /* FORCE LE NOIR SUR TOUT LE TEXTE */
-    label, p, span, div, h1, h2, h3, [data-testid="stWidgetLabel"] p {
+    /* FORCE LE NOIR SUR TOUT LE TEXTE HORS MENUS */
+    label, p, span, h1, h2, h3, [data-testid="stWidgetLabel"] p {
         color: #000000 !important; font-weight: 700 !important;
     }
     
-    /* FIX MOBILE & DESKTOP : MENUS DÉROULANTS (SELECTBOX) EN VERT */
+    /* FIX SELECTBOX (BOUTON FERMÉ) */
     div[data-baseweb="select"] > div {
         background-color: #28a745 !important;
         color: #ffffff !important;
         border: none !important;
     }
-    
-    /* Couleur du texte sélectionné et de la petite flèche */
+
+    /* FIX FLÈCHE (SVG) */
     div[data-testid="stSelectbox"] svg {
         fill: #ffffff !important;
     }
+
+    /* FIX DROPDOWN (MENU OUVERT) */
+    /* On cible la liste qui apparaît quand on clique */
+    ul[role="listbox"] {
+        background-color: #ffffff !important;
+    }
     
-    div[data-testid="stSelectbox"] div div {
-        color: #ffffff !important;
+    /* On cible les options individuelles dans la liste */
+    li[role="option"] {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+    
+    /* Couleur au survol (hover) dans la liste */
+    li[role="option"]:hover {
+        background-color: #e9ecef !important;
     }
 
     /* SIDEBAR */
     [data-testid="stSidebar"] { background-color: #e9ecef !important; border-right: 1px solid #ddd; }
 
-    /* BOUTONS VERTS AVEC TEXTE BLANC */
+    /* BOUTONS VERTS */
     .stButton>button { 
         width: 100%; 
         background-color: #28a745 !important; 
