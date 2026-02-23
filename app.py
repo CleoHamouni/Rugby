@@ -160,7 +160,7 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
                 "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
             ],
             "Voiture": [
-                "ma batterie est totalement à plat, j'attends des câbles", "j'ai un pneu dégonflé je m'occupe de ce soucis",
+                "ma batterie est totalement à plat, j'attends des câbles", "j'ai un pneu dégonflé je m'occupe de ce souci",
                 "une voiture me bloque totalement sur le parking du stade", "j'ai perdu mes clés dans l'herbe du terrain",
                 "il y a un accident majeur qui bloque la sortie du complexe",
                 "le parking a été fermé à clé par erreur avec ma voiture dedans", "j'ai le voyant de la reserve qui vient de s'allumer, je passe faire le plein",
@@ -189,7 +189,6 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
             conclusions = [
                 "je fais au plus vite pour rentrer dès que possible.",
                 "je m'arrache dès que la situation est débloquée.",
-                "je saute dans le premier trajet disponible.",
                 "je fais au maximum pour limiter le retard.",
                 "je te tiens au courant dès que je bouge, promis."
             ]
