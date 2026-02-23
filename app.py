@@ -4,42 +4,57 @@ import random
 # Configuration
 st.set_page_config(page_title="Third Time", page_icon="🏉", layout="centered")
 
-# --- STYLE CSS (FIX COMPLET MOBILE + SIDEBAR BUTTON) ---
+# --- STYLE CSS (FIX FINAL MOBILE + TOUT VISIBLE) ---
 st.markdown("""
     <style>
-    .stApp { background-color: #f8f9fa; color: #000000; }
-    
-    /* 1. FIX BOUTON SIDEBAR (FLECHE/HAMBURGER MOBILE) */
-    /* On cible le bouton qui ouvre le menu latéral sur mobile */
-    [data-testid="stSidebarCollapsedControl"] button {
-        background-color: #28a745 !important;
-        color: white !important;
-        border-radius: 50%;
-    }
-    /* On s'assure que l'icône à l'intérieur est blanche */
-    [data-testid="stSidebarCollapsedControl"] svg {
-        fill: white !important;
+    /* 1. FORCE LE THÈME CLAIR AU NIVEAU DES VARIABLES */
+    :root {
+        --primary-color: #28a745;
+        --background-color: #f8f9fa;
+        --secondary-background-color: #e9ecef;
+        --text-color: #000000;
     }
 
-    /* 2. FORCE LE NOIR SUR TOUT LE TEXTE HORS MENUS */
+    .stApp { background-color: #f8f9fa; color: #000000; }
+    
+    /* 2. LE CORRECTIF ULTIME POUR LA FLÈCHE SIDEBAR (HAMBURGER) MOBILE */
+    [data-testid="stSidebarCollapsedControl"] {
+        background-color: #28a745 !important;
+        border-radius: 0 8px 8px 0 !important;
+        left: 0 !important;
+        top: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    [data-testid="stSidebarCollapsedControl"] svg {
+        fill: white !important;
+        color: white !important;
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    /* 3. FORCE LE NOIR SUR TOUT LE TEXTE DES LABELS */
     label, p, span, h1, h2, h3, [data-testid="stWidgetLabel"] p {
         color: #000000 !important; font-weight: 700 !important;
     }
     
-    /* 3. FIX SELECTBOX (BOUTON FERMÉ) */
+    /* 4. FIX SELECTBOX (BOUTON VERT, TEXTE BLANC) */
     div[data-baseweb="select"] > div {
         background-color: #28a745 !important;
         color: #ffffff !important;
         border: none !important;
     }
 
-    /* 4. FIX FLÈCHE INTERNE SELECTBOX (SVG) */
     div[data-testid="stSelectbox"] svg {
         fill: #ffffff !important;
     }
 
-    /* 5. FIX DROPDOWN (MENU OUVERT) */
-    ul[role="listbox"] {
+    /* 5. FIX DROPDOWN (MENU OUVERT : BLANC ET NOIR) */
+    div[data-baseweb="popover"], ul[role="listbox"] {
         background-color: #ffffff !important;
     }
     li[role="option"] {
@@ -66,7 +81,7 @@ st.markdown("""
         font-size: 1.1rem;
     }
 
-    /* 8. BOXES ET CARTES */
+    /* 8. BOXES */
     .excuse-box { 
         background-color: #ffffff; padding: 20px; border-radius: 10px; 
         border: 3px solid #28a745; color: #000000 !important; font-style: italic; font-size: 1.1rem;
@@ -81,14 +96,14 @@ st.markdown("""
 
 # --- SIDEBAR : DASHBOARD ROI ---
 with st.sidebar:
-    st.header("📊 Ration Fun / Risque")
-    conso = st.slider("Verres consommés", 0, 15, 2)
-    tension = st.slider("Taux d'énervement de Madame", 1, 10, 1)
+    st.header("📊 Business Intel")
+    conso = st.slider("Unités consommées", 0, 15, 2)
+    tension = st.slider("Indice de tension", 1, 10, 1)
     roi_score = (conso * 5) - (tension * 3)
     st.markdown(f"""<div class="finops-card"><p style="color:black; margin-bottom:0;">ROI FUN / RISQUE</p><span class="metric-value">{roi_score}</span></div>""", unsafe_allow_html=True)
 
 # --- CORPS DE L'APPLI ---
-st.title("🏉 Générateur d'excuses by The Paddies")
+st.title("🏉 Third Time")
 col1, col2 = st.columns(2)
 with col1:
     cat = st.selectbox("Catégorie :", ["Solidarité", "Santé", "Transports", "Club"])
