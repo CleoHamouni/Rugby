@@ -160,12 +160,12 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
                 "on est évacués de la station pour une alerte fumée", "le parking est saturé et personne ne peut sortir"
             ],
             "Voiture": [
-                "ma batterie est totalement à plat, j'attends des câbles", "j'ai un pneu crevé et le cric du club est cassé",
+                "ma batterie est totalement à plat, j'attends des câbles", "j'ai un pneu dégonflé je m'occupe de ce soucis",
                 "une voiture me bloque totalement sur le parking du stade", "j'ai perdu mes clés dans l'herbe du terrain",
-                "il y a un accident majeur qui bloque la sortie du complexe", "ma voiture refuse de démarrer, j'attends un pote qui s'y connaît",
-                "le parking a été fermé à clé par erreur avec ma voiture dedans", "j'ai un voyant moteur rouge qui vient de s'allumer",
-                "on m'a pété un rétro sur le parking, je fais le tour pour voir qui c'est", "les flics bloquent l'accès à la rue pour une intervention",
-                "ma portière est gelée/bloquée, je galère à l'ouvrir", "j'ai prêté mes clés à un gars parti aux douches"
+                "il y a un accident majeur qui bloque la sortie du complexe",
+                "le parking a été fermé à clé par erreur avec ma voiture dedans", "j'ai le voyant de la reserve qui vient de s'allumer, je passe faire le plein",
+                 "les flics bloquent l'accès à la rue pour une intervention",
+                 "j'ai prêté mes clés à un gars parti aux douches"
             ],
             "Club": [
                 "le coach nous retient pour un débriefing", "le président fait un discours interminable", 
@@ -181,8 +181,8 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
         if (cat in ["Club", "Solidarité"]) and res == "Victoire":
             conclusions = [
                 "on profite un peu de cette gagne ensemble, je ne décolle pas tout de suite mais je fais au plus vite.",
-                "impossible de partir en plein milieu du chant de la victoire, je te rejoins dès que possible.",
-                "l'ambiance est trop forte après cette gagne, je reste un peu soutenir le groupe et j'arrive.",
+                "impossible de partir en plein milieu des discours de victoire, je te rejoins dès que possible.",
+                "l'ambiance est top après cette gagne, je reste un peu soutenir le groupe et j'arrive.",
                 "on savoure ce résultat, le groupe a besoin de ce moment, je ne traîne pas trop."
             ]
         else:
