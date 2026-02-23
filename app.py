@@ -171,7 +171,12 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
             c = f"je fais au plus vite pour rentrer dès que possible après {h_prevu}h."
             
         st.markdown(f"<div class='excuse-box'>« {i} {a}, {c} »</div>", unsafe_allow_html=True)
-
+# --- CALCUL CRÉDIBILITÉ ---
+        base_success = 85 if ton == "Mielleux" else 60
+        if cat == "Santé": base_success += 10
+        if cat == "Transports": base_success -= 15
+        credibility = max(5, min(99, base_success - (conso * 3) - (tension * 2)))
+        st.markdown(f"<div class='credibility-gauge'>📊 Probabilité de succès : {credibility}%</div>", unsafe_allow_html=True)
 # --- MODE ROULETTE (TOUTE LA LISTE) ---
 st.divider()
 st.subheader("🎰 Mode Roulette")
