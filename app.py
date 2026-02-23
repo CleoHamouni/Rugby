@@ -70,6 +70,12 @@ st.markdown("""
         border-radius: 8px;
         margin-top: 5px;
     }
+    .credibility-gauge {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #28a745;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -161,23 +167,38 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
                 "l'arbitre fait un point sur les règles au vestiaire", "on nettoie le local suite à une sanction"
             ]
         }
+
+        # --- SYSTÈME DE CONCLUSIONS ÉTENDU ---
+        if (cat in ["Club", "Solidarité"]) and res == "Victoire":
+            conclusions = [
+                "on profite un peu de cette gagne ensemble, je ne décolle pas tout de suite mais je fais au plus vite.",
+                "impossible de partir en plein milieu du chant de la victoire, je te rejoins dès que possible.",
+                "l'ambiance est trop forte après cette gagne, je reste un peu soutenir le groupe et j'arrive.",
+                "on savoure ce résultat, le groupe a besoin de ce moment, je ne traîne pas trop."
+            ]
+        else:
+            conclusions = [
+                "je fais au plus vite pour rentrer dès que possible.",
+                "je m'arrache dès que la situation est débloquée.",
+                "je saute dans le premier trajet disponible.",
+                "je fais au maximum pour limiter le retard.",
+                "je te tiens au courant dès que je bouge, promis."
+            ]
         
         i = random.choice(intros[ton]).format(h=h_prevu)
         a = random.choice(actions[cat])
-        
-        if (cat in ["Club", "Solidarité"]) and res == "Victoire":
-            c = f"on profite un peu de cette gagne ensemble, je ne décolle pas tout de suite mais je fais au plus vite."
-        else:
-            c = f"je fais au plus vite pour rentrer dès que possible."
+        c = random.choice(conclusions)
             
         st.markdown(f"<div class='excuse-box'>« {i} {a}, {c} »</div>", unsafe_allow_html=True)
-# --- CALCUL CRÉDIBILITÉ ---
+
+        # --- CALCUL CRÉDIBILITÉ ---
         base_success = 85 if ton == "Mielleux" else 60
         if cat == "Santé": base_success += 10
         if cat == "Transports": base_success -= 15
         credibility = max(5, min(99, base_success - (conso * 3) - (tension * 2)))
         st.markdown(f"<div class='credibility-gauge'>📊 Probabilité de succès : {credibility}%</div>", unsafe_allow_html=True)
-# --- MODE ROULETTE (TOUTE LA LISTE) ---
+
+# --- MODE ROULETTE ---
 st.divider()
 st.subheader("🎰 Mode Roulette")
 if st.button("🎲 TENTER LE ALL-IN"):
