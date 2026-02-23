@@ -166,9 +166,9 @@ if st.button("🚀 GÉNÉRER L'EXCUSE"):
         a = random.choice(actions[cat])
         
         if (cat in ["Club", "Solidarité"]) and res == "Victoire":
-            c = f"on savoure cette gagne ensemble, je ne décolle pas tout de suite."
+            c = f"on profite un peu de cette gagne ensemble, je ne décolle pas tout de suite mais je fais au plus vite."
         else:
-            c = f"je fais au plus vite pour rentrer dès que possible après {h_prevu}h."
+            c = f"je fais au plus vite pour rentrer dès que possible."
             
         st.markdown(f"<div class='excuse-box'>« {i} {a}, {c} »</div>", unsafe_allow_html=True)
 # --- CALCUL CRÉDIBILITÉ ---
